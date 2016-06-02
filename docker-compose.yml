@@ -1,0 +1,28 @@
+version: '2'
+services:
+  wp_data:
+    image: busybox
+    volumes:
+      - /var/lib/mysql
+  wp_mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes_from:
+      - wp_data
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  wp_web:
+    image: wordpress
+    volumes:
+      - ./wordpress:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_HOST: wp_mysql:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_TABLE_PREFIX: wp_
+    links:
+      - wp_mysql
