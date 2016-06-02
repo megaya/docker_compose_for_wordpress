@@ -3,7 +3,7 @@ services:
   wp_data:
     image: busybox
     volumes:
-      - /var/lib/mysql
+      - /opt/datastore:/var/lib/mysql
   wp_mysql:
     image: mysql
     ports:
